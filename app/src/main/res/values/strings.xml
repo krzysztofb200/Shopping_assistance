@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Shopping assistance</string>
+    <string name="title_home">Zakupy</string>
+    <string name="title_dashboard">Kody</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="email">Email</string>
+    <string name="password">Hasło</string>
+    <string name="log_in">Zaloguj się</string>
+    <string name="register">Nie masz konta? Zarejestruj się</string>
+    <string name="password_forget">Zapomniałeś hasła?</string>
+    <string name="confirm_password">Potwierdź hasło</string>
+    <string name="create_account">Zarejestruj się</string>
+    <string name="login_page">Masz już konto? Zaloguj się</string>
+    <string name="no_shopping_lists_available">Brak dostępnych list zakupów</string>
+    <string name="no_products">Brak produktów. Dodaj jakiś.</string>
+</resources>

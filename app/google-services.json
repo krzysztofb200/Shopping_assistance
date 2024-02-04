@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "954026134770",
+    "project_id": "shopping-assistance-bce8a",
+    "storage_bucket": "shopping-assistance-bce8a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954026134770:android:7e050559b00811690d146b",
+        "android_client_info": {
+          "package_name": "com.example.shopping_assistance"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWYfReg9ToLGQMWa7-jng-MwofiE8q430"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
