@@ -15,6 +15,7 @@
         android:id="@+id/recyclerViewLists"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="16dp"
         android:visibility="visible" />
 
     <!-- Informacja o braku list zakupów -->

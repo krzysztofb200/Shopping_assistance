@@ -7,13 +7,10 @@
     android:layout_margin="10dp"
     app:cardElevation="6dp">
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp"
-    tools:ignore="MissingDefaultResource">
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/textViewListName"
