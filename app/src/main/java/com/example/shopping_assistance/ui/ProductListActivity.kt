@@ -4,19 +4,16 @@ import android.content.ContentValues.TAG
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.View
-import android.view.Window
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -55,6 +52,29 @@ class ProductListActivity : AppCompatActivity() {
         val addUserImageView: ImageView = findViewById(R.id.imageViewAddUser)
         addUserImageView.setOnClickListener {
             showAddUserDialog(listId.toString())
+        }
+
+        val imageDeleleteList: ImageView = findViewById(R.id.imageDeleteList)
+        imageDeleleteList.setOnClickListener {
+            val alertDialogBuilder = AlertDialog.Builder(this)
+            alertDialogBuilder.setTitle("Usuń listę")
+            alertDialogBuilder.setMessage("Czy na pewno chcesz usunąć tę listę?")
+
+            alertDialogBuilder.setPositiveButton("Tak") { _, _ ->
+                // Usunięcie listy i inne operacje, które mają być wykonane po potwierdzeniu
+                val email = FirebaseAuth.getInstance().currentUser?.email
+                removeUserFromList(email.toString(), listId.toString())
+
+                // Zamknięcie aktywności po usunięciu listy
+                finish()
+            }
+
+            alertDialogBuilder.setNegativeButton("Nie") { _, _ ->
+                // Operacje po anulowaniu usunięcia
+            }
+
+            val alertDialog = alertDialogBuilder.create()
+            alertDialog.show()
         }
 
         recyclerView = findViewById(R.id.recyclerView)
