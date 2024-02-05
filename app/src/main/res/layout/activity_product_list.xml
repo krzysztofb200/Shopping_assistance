@@ -20,6 +20,17 @@
             app:titleTextColor="@android:color/white">
 
             <ImageView
+                android:id="@+id/imageDeleteList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:clickable="true"
+                android:contentDescription="User Icon"
+                android:focusable="true"
+                android:padding="8dp"
+                android:src="@drawable/delete_fill0_wght400_grad0_opsz24" />
+
+            <ImageView
                 android:id="@+id/imageViewUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -28,7 +39,7 @@
                 android:contentDescription="User Icon"
                 android:focusable="true"
                 android:padding="8dp"
-                android:src="@drawable/person_fill0_wght400_grad0_opsz24" />
+                android:src="@drawable/group_fill0_wght400_grad0_opsz24" />
 
             <ImageView
                 android:id="@+id/imageViewAddUser"
