@@ -9,8 +9,7 @@
         android:id="@+id/textViewUserEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@android:color/black"/>
+        android:textSize="16sp" />
 
     <ImageView
         android:id="@+id/imageViewDeleteUser"
@@ -19,7 +18,7 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="8dp"
-        android:src="@android:drawable/ic_menu_delete"
+        android:src="@drawable/delete_fill0_wght400_grad0_opsz24"
         android:visibility="visible"/>
 
 </RelativeLayout>
