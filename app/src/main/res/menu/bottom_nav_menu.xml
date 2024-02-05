@@ -16,4 +16,9 @@
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="@string/title_notifications" />
 
+    <item
+        android:id="@+id/navigation_account"
+        android:icon="@drawable/account_circle_fill0_wght400_grad0_opsz24"
+        android:title="@string/title_account" />
+
 </menu>
