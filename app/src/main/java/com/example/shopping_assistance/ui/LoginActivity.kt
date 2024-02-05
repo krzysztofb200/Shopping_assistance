@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.shopping_assistance.MainActivity
 import com.example.shopping_assistance.R
 import com.google.firebase.auth.FirebaseAuth
@@ -28,6 +29,8 @@ class LoginActivity : AppCompatActivity() {
 
         // Inicjalizacja FirebaseAuth
         firebaseAuth = FirebaseAuth.getInstance()
+
+        setTheme()
 
         // Inicjalizacja SharedPreferences
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
@@ -68,6 +71,20 @@ class LoginActivity : AppCompatActivity() {
         }
 
         //TODO: password recovery function
+    }
+
+    private fun setTheme() {
+        sharedPreferences = getSharedPreferences("themePrefs", Context.MODE_PRIVATE)
+
+        // Pobierz aktualny stan isDarkMode z SharedPreferences
+        val isDarkMode = sharedPreferences.getBoolean("isDarkMode", false)
+
+        // Ustaw motyw zgodnie ze stanem isDarkMode
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
     }
 
     private fun loginUser(email: String, password: String) {

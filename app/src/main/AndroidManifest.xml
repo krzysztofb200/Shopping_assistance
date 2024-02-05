@@ -19,6 +19,9 @@
         android:theme="@style/Theme.ShoppingAssistance"
         tools:targetApi="31">
         <activity
+            android:name=".ui.ChangeThemeActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.BarcodeScannerActivity"
             android:exported="false" />
         <activity

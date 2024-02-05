@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopping_assistance.R
+import com.example.shopping_assistance.ui.ChangeThemeActivity
 import com.example.shopping_assistance.ui.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 
@@ -37,7 +38,7 @@ class AccountFragment : Fragment() {
         textViewEmail.text = FirebaseAuth.getInstance().currentUser?.email
 
         // Następnie możesz skonfigurować RecyclerView z listą opcji
-        val optionsList = listOf("Wyloguj się", "Inne opcje")
+        val optionsList = listOf("Wyloguj się", "Tryb ciemny")
         val adapter = OptionsAdapter()
         adapter.submitList(optionsList)
         recyclerViewOptions.layoutManager = LinearLayoutManager(requireContext())
@@ -46,6 +47,7 @@ class AccountFragment : Fragment() {
         adapter.setOnItemClickListener { position ->
             when (position) {
                 0 -> logoutUser()
+                1 -> changeTheme()
                 // Dodaj inne obsługiwane opcje
             }
         }
@@ -67,5 +69,10 @@ class AccountFragment : Fragment() {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
         activity?.finish()
+    }
+
+    private fun changeTheme(){
+        val intent = Intent(activity, ChangeThemeActivity::class.java)
+        startActivity(intent)
     }
 }
