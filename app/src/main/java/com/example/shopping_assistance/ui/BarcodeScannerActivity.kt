@@ -167,7 +167,7 @@ class BarcodeScannerActivity : AppCompatActivity() {
                         binding.bottomText.text = "Kod: $value"
                         binding.next.visibility = View.VISIBLE
                         binding.next.setOnClickListener {
-                            addBarcodeToDatabase(codeName.toString(), value)
+                            addBarcodeToDatabase(codeName, value)
                         }
                     }
                 }

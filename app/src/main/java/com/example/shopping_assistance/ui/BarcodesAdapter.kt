@@ -52,7 +52,10 @@ class BarcodesAdapter : ListAdapter<BarcodeClass, BarcodesAdapter.BarcodeViewHol
         }
 
         override fun areContentsTheSame(oldItem: BarcodeClass, newItem: BarcodeClass): Boolean {
-            return oldItem == newItem
+            //return oldItem == newItem
+            //Jak jest dane return false, to lista się cała odświeża po usunięciu lub dodaniu jakiegoś
+            //elementu, a nie tylko jeden jej element
+            return false
         }
     }
 }

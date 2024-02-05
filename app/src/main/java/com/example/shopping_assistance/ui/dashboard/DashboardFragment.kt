@@ -3,24 +3,26 @@ package com.example.shopping_assistance.ui.dashboard
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.OptIn
-import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AlertDialog
 import androidx.camera.core.ExperimentalGetImage
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopping_assistance.R
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.example.shopping_assistance.databinding.FragmentDashboardBinding
 import com.example.shopping_assistance.ui.BarcodeClass
 import com.example.shopping_assistance.ui.BarcodeScannerActivity
 import com.example.shopping_assistance.ui.BarcodesAdapter
-import java.util.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import java.util.UUID
 
 class DashboardFragment : Fragment() {
 
@@ -105,7 +107,7 @@ class DashboardFragment : Fragment() {
                 Log.d(TAG, "Loaded ${barcodes.size} barcodes")
 
                 // Aktualizuj listę w adapterze
-                barcodes.sortBy { it.name }
+                barcodes.sortBy { it.name.lowercase() }
                 barcodesAdapter.submitList(barcodes)
 
                 // Dodaj log, aby sprawdzić, czy kolekcja products nie jest pusta
@@ -172,6 +174,12 @@ class DashboardFragment : Fragment() {
             }
     }
 
+    override fun onStart() {
+        super.onStart()
+        loadBarcodes()
+        Log.d("YourActivity", "onStart")
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -179,6 +187,7 @@ class DashboardFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        Log.d("YourActivity", "onResume")
         loadBarcodes()
     }
 

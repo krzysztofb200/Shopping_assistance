@@ -57,7 +57,10 @@ class ShoppingListAdapter : ListAdapter<ShoppingListClass, ShoppingListAdapter.S
         }
 
         override fun areContentsTheSame(oldItem: ShoppingListClass, newItem: ShoppingListClass): Boolean {
-            return oldItem == newItem
+            //return oldItem == newItem
+            //Jak jest dane return false, to lista się cała odświeża po usunięciu lub dodaniu jakiegoś
+            //elementu, a nie tylko jeden jej element
+            return false
         }
     }
 }
