@@ -2,12 +2,12 @@ package com.example.shopping_assistance.ui
 
 import android.content.Intent
 import android.os.Bundle
-import com.example.shopping_assistance.R
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.shopping_assistance.MainActivity
+import com.example.shopping_assistance.R
 import com.google.firebase.auth.FirebaseAuth
 
 class RegistrationActivity : AppCompatActivity() {
@@ -61,6 +61,7 @@ class RegistrationActivity : AppCompatActivity() {
                     // Rejestracja zakończona sukcesem
                     Toast.makeText(this, "Rejestracja udana", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     startActivity(intent)
                     finish()
                 } else {
