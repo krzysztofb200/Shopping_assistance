@@ -1,4 +1,4 @@
-package com.example.shopping_assistance.ui
+package com.example.shopping_assistance.ui.adapters
 
 import android.content.Context
 import android.util.Log
@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.shopping_assistance.R
+import com.example.shopping_assistance.ui.ProductListActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class UsersListAdapter(private val context: Context, private val usersList: List<String>, private val listId: String) :

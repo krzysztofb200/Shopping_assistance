@@ -19,6 +19,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopping_assistance.R
+import com.example.shopping_assistance.ui.adapters.Product
+import com.example.shopping_assistance.ui.adapters.ProductListAdapter
+import com.example.shopping_assistance.ui.adapters.UsersListAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -38,12 +41,11 @@ class ProductListActivity : AppCompatActivity() {
         val listName = intent.getStringExtra("listName")
         val listId = intent.getStringExtra("listId")
 
-        // Inicjalizacja Toolbar
+        //Toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.title = listName
 
-        // Inicjalizacja ImageView z ikoną użytkownika
         val imageViewUser: ImageView = findViewById(R.id.imageViewUser)
         imageViewUser.setOnClickListener {
             showUsersListDialog(listId.toString())
@@ -57,20 +59,18 @@ class ProductListActivity : AppCompatActivity() {
         val imageDeleleteList: ImageView = findViewById(R.id.imageDeleteList)
         imageDeleleteList.setOnClickListener {
             val alertDialogBuilder = AlertDialog.Builder(this)
-            alertDialogBuilder.setTitle("Usuń listę")
-            alertDialogBuilder.setMessage("Czy na pewno chcesz usunąć tę listę?")
+            alertDialogBuilder.setTitle(R.string.delete_list)
+            alertDialogBuilder.setMessage(R.string.do_you_want_to_delete_this_list)
 
-            alertDialogBuilder.setPositiveButton("Tak") { _, _ ->
-                // Usunięcie listy i inne operacje, które mają być wykonane po potwierdzeniu
+            alertDialogBuilder.setPositiveButton(R.string.yes) { _, _ ->
                 val email = FirebaseAuth.getInstance().currentUser?.email
                 removeUserFromList(email.toString(), listId.toString())
 
-                // Zamknięcie aktywności po usunięciu listy
+                // Close the activity after deleting the list
                 finish()
             }
 
-            alertDialogBuilder.setNegativeButton("Nie") { _, _ ->
-                // Operacje po anulowaniu usunięcia
+            alertDialogBuilder.setNegativeButton(R.string.no) { _, _ ->
             }
 
             val alertDialog = alertDialogBuilder.create()
@@ -90,7 +90,7 @@ class ProductListActivity : AppCompatActivity() {
             showAddProductDialog(listId.toString())
         }
 
-        // Inicjalizacja ItemTouchHelper
+        //ItemTouchHelper
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -117,7 +117,7 @@ class ProductListActivity : AppCompatActivity() {
                 actionState: Int,
                 isCurrentlyActive: Boolean
             ) {
-                // Dodaj efekt wizualny dla przesunięcia w lewo
+                // Add visual effect for swiping left
                 if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE && dX < 0) {
                     val itemView = viewHolder.itemView
                     val background = ColorDrawable(Color.RED)
@@ -157,11 +157,11 @@ class ProductListActivity : AppCompatActivity() {
     private fun loadProducts(listId: String) {
         val firestore = FirebaseFirestore.getInstance()
 
-        // Pobierz kolekcję "products" dla danej listy
+        // Download "products"  collection for a list
         firestore.collection("shoppingLists").document(listId).collection("products")
             .addSnapshotListener { value, exception ->
                 if (exception != null) {
-                    // Obsługa błędu pobierania danych z Firestore
+                    // Handling error downloading data from Firestore
                     Log.e(TAG, "Błąd pobierania danych z Firestore", exception)
                     return@addSnapshotListener
                 }
@@ -175,57 +175,56 @@ class ProductListActivity : AppCompatActivity() {
                             continue
                         }
 
-                        // Odczytaj dane produktu z dokumentu
+                        // Read the values of the product
                         val productId = document.getString("productId") ?: ""
                         val name = document.getString("name") ?: ""
                         val purchased = document.getBoolean("purchased") ?: false
 
-                        // Dodaj produkt do listy
+                        // Add product to the list
                         val product = Product(productId, name, purchased)
                         products.add(product)
                     }
 
-                    // Sprawdź, czy kolekcja products jest pusta
+                    // Check if products collection is empty
                     if (products.isEmpty()) {
-                        // Kolekcja products jest pusta, ukryj RecyclerView, pokaż TextView
+                        // Products collection is empty, hide RecyclerView, show TextView
                         recyclerView.visibility = View.GONE
                         textNoProducts.visibility = View.VISIBLE
                     } else {
-                        // Kolekcja products nie jest pusta, pokaż RecyclerView, ukryj TextView
+                        // Products collection is not empty, show RecyclerView, hide TextView
                         recyclerView.visibility = View.VISIBLE
                         textNoProducts.visibility = View.GONE
 
-                        // Zaktualizuj listę produktów w adapterze
+                        // Update the product list in the adapter
                         adapter.submitList(products)
                     }
                 }
             }
     }
 
-
     private fun showAddProductDialog(listId: String) {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Dodaj produkt")
+        builder.setTitle(R.string.add_product)
 
         val input = EditText(this)
         input.inputType = InputType.TYPE_CLASS_TEXT
         builder.setView(input)
 
-        builder.setPositiveButton("Dodaj") { _, _ ->
+        builder.setPositiveButton(R.string.add) { _, _ ->
             val productName = input.text.toString()
 
             if (productName.isNotEmpty()) {
                 if (productName.length > 25) {
-                    Toast.makeText(this, "Nazwa produktu nie może być dłuższa niż 25 znaków", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, R.string.name_cant_be_longer_than, Toast.LENGTH_SHORT).show()
                 } else {
                     addProductToFirestore(productName, listId)
                 }
             } else {
-                Toast.makeText(this, "Podaj nazwę produktu", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.enter_the_product_name, Toast.LENGTH_SHORT).show()
             }
         }
 
-        builder.setNegativeButton("Anuluj") { dialog, _ ->
+        builder.setNegativeButton(R.string.cancel) { dialog, _ ->
             dialog.cancel()
         }
 
@@ -236,25 +235,25 @@ class ProductListActivity : AppCompatActivity() {
         val firestore = FirebaseFirestore.getInstance()
         val productId = UUID.randomUUID().toString()
 
-        // Utwórz nowy produkt
+        // Create a new product
         val newProduct = Product(productId, productName, purchased = false)
 
-        // Dodaj produkt do kolekcji "products" w Firebase Firestore
+        // Add the product to the "products" collection in Firebase Firestore
         firestore.collection("shoppingLists").document(listId).collection("products").document(productId)
             .set(newProduct)
             .addOnSuccessListener {
-                Toast.makeText(this, "Produkt dodany pomyślnie", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.product_added_successfully, Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
                 Log.e(TAG, "Błąd podczas dodawania produktu do Firestore", e)
-                Toast.makeText(this, "Błąd dodawania produktu", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.error_while_adding_the_product, Toast.LENGTH_SHORT).show()
             }
     }
 
     private fun showUsersListDialog(listId: String) {
         val firestore = FirebaseFirestore.getInstance()
 
-        // Pobierz listę użytkowników dla konkretnej listy zakupowej
+        // Download the list of users for a specific shopping list
         firestore.collection("shoppingLists").document(listId).collection("users")
             .get()
             .addOnSuccessListener { result ->
@@ -269,94 +268,90 @@ class ProductListActivity : AppCompatActivity() {
 
                 Log.d("ProductListActivity", "Liczba użytkowników: ${usersList.size}")
 
-                // Wyświetl listę użytkowników w AlertDialog
-                showAlertDialog("Użytkownicy na liście", usersList, listId)
+                showAlertDialog(usersList, listId)
             }
             .addOnFailureListener { e ->
                 Log.e(TAG, "Błąd podczas pobierania listy użytkowników z Firestore", e)
-                Toast.makeText(this, "Błąd pobierania listy użytkowników", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.error_while_downloading_the_list, Toast.LENGTH_SHORT).show()
             }
     }
 
-    private fun showAlertDialog(title: String, usersList: List<String>, listId: String) {
+    private fun showAlertDialog(usersList: List<String>, listId: String) {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle(title)
+        builder.setTitle(R.string.users_on_the_list)
 
         Log.d("ProductListActivity", "Liczba użytkowników: ${usersList.size}")
 
         val sortedList = usersList.sorted()
 
-        val adapter = UsersListAdapter(this, sortedList, listId)  // Zmiana na this jako kontekst
-        val currentUserEmail = FirebaseAuth.getInstance().currentUser?.email // Zastąp to odpowiednim kodem do pobrania aktualnie zalogowanego użytkownika
+        val adapter = UsersListAdapter(this, sortedList, listId)
+        val currentUserEmail = FirebaseAuth.getInstance().currentUser?.email
 
         builder.setAdapter(adapter) { _, position ->
             val userEmail = usersList[position]
 
             if (userEmail != currentUserEmail) {
-                // Usuń użytkownika po kliknięciu tylko jeśli to nie jest aktualnie zalogowany użytkownik
+                // Delete user on click only if it is not the currently logged in user
                 Log.d(TAG, userEmail)
 
                 removeUserFromList(userEmail, listId)
             } else {
-                // To jest aktualnie zalogowany użytkownik, możesz dodać odpowiednią obsługę (np. komunikat, że nie można usunąć samego siebie)
-                Toast.makeText(this, "Nie możesz usunąć samego siebie", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.cant_delete_your_account, Toast.LENGTH_SHORT).show()
             }
         }
 
-        builder.setNegativeButton("Anuluj") { dialog, _ ->
+        builder.setNegativeButton(R.string.cancel) { dialog, _ ->
             dialog.cancel()
         }
-
-        alertDialog = builder.create()  // Przypisz utworzoną instancję do zmiennej alertDialog
+        alertDialog = builder.create()
         alertDialog?.show()
     }
 
     fun removeUserFromList(userEmail: String, listId: String) {
         val firestore = FirebaseFirestore.getInstance()
 
-        // Pobierz referencję do dokumentu listy zakupowej
+        // Download a reference to the shopping list document
         val shoppingListDocRef = firestore.collection("shoppingLists").document(listId)
 
-        // Usuń użytkownika z kolekcji "users" w dokumencie listy zakupowej
+        // Remove a user from the "users" collection in the shopping list document
         shoppingListDocRef.collection("users")
             .whereEqualTo("email", userEmail)
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
-                    // Znaleziono dokument, który chcemy usunąć
                     val userId = document.getString("userUid")
                     if (userId != null) {
                         shoppingListDocRef.collection("users").document(userId).delete()
                             .addOnSuccessListener {
-                                // Użytkownik został pomyślnie usunięty
-                                Toast.makeText(this, "Użytkownik usunięty z listy", Toast.LENGTH_SHORT).show()
+                                // The user has been successfully deleted
+                                Toast.makeText(this, R.string.user_deleted_from_the_list, Toast.LENGTH_SHORT).show()
                                 removeListIdFromUserCollection(listId, userEmail)
                                 alertDialog?.dismiss()
                             }
                             .addOnFailureListener { e ->
                                 Log.e(TAG, "Błąd podczas usuwania użytkownika", e)
-                                Toast.makeText(this, "Błąd usuwania użytkownika", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, R.string.error_while_deleting_the_user, Toast.LENGTH_SHORT).show()
                             }
                     }
                 }
             }
             .addOnFailureListener { e ->
                 Log.e(TAG, "Błąd podczas pobierania użytkownika do usunięcia", e)
-                Toast.makeText(this, "Błąd pobierania użytkownika do usunięcia", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.error_while_downloading_the_user, Toast.LENGTH_SHORT).show()
             }
     }
 
     private fun removeListIdFromUserCollection(listId: String, userEmail: String) {
         val firestore = FirebaseFirestore.getInstance()
 
-        // Pobierz użytkownika po polu "email" w kolekcji "userData"
+        // Get user by "email" field in "userData" collection
         firestore.collection("userData")
             .whereEqualTo("email", userEmail)
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
-                    val userUid = document.id // Odnajdziono użytkownika, pobierz jego uid
-                    // Usuń listId z kolekcji "lists" dla danego użytkownika
+                    val userUid = document.id // User found, get his uid
+                    // Remove listId from the "lists" collection for a given user
                     firestore.collection("userData").document(userUid).collection("lists")
                         .document(listId)
                         .delete()
@@ -381,12 +376,12 @@ class ProductListActivity : AppCompatActivity() {
 
         val emailEditText: EditText = dialogView.findViewById(R.id.editTextEmail)
 
-        dialogBuilder.setTitle("Dodaj użytkownika")
-        dialogBuilder.setPositiveButton("Dodaj") { _, _ ->
+        dialogBuilder.setTitle(R.string.add_user)
+        dialogBuilder.setPositiveButton(R.string.add) { _, _ ->
             val email = emailEditText.text.toString()
             addUserToList(listId, email)
         }
-        dialogBuilder.setNegativeButton("Anuluj") { dialog, _ ->
+        dialogBuilder.setNegativeButton(R.string.cancel) { dialog, _ ->
             dialog.dismiss()
         }
 
@@ -395,26 +390,20 @@ class ProductListActivity : AppCompatActivity() {
     }
 
     private fun addUserToList(listId: String, email: String) {
-        // Sprawdź, czy użytkownik o podanym email istnieje w kolekcji userData
-        // Sprawdź, czy użytkownik o podanym email już nie istnieje w subkolekcji users aktualnej listy zakupowej
-
-        // Dodaj odpowiednie operacje Firebase Firestore, aby sprawdzić i dodać użytkownika
-
-        // Przykładowa operacja dodawania użytkownika do subkolekcji users aktualnej listy
-        // pobierz UID aktualnie zalogowanego użytkownika
+        // Checking whether the user with the given email address exists in the userData collection
+        // Checking whether the user with the given email address does not already exist in the users subcollection of the current shopping list
 
         val firestore = FirebaseFirestore.getInstance()
 
-        // Sprawdź, czy użytkownik o podanym email istnieje w kolekcji userData
         firestore.collection("userData")
             .whereEqualTo("email", email)
             .get()
             .addOnSuccessListener { querySnapshot ->
                 if (querySnapshot.documents.isNotEmpty()) {
-                    // Użytkownik o podanym email istnieje, możesz dodać go do subkolekcji users
+                    // The user with the given email address exists, you can add it to the users subcollection
                     val userId = querySnapshot.documents[0].id
 
-                    // Sprawdź, czy użytkownik już nie istnieje w subkolekcji users aktualnej listy
+                    // Check if the user already exists in the users subcollection of the current list
                     firestore.collection("shoppingLists")
                         .document(listId)
                         .collection("users")
@@ -422,7 +411,7 @@ class ProductListActivity : AppCompatActivity() {
                         .get()
                         .addOnSuccessListener { documentSnapshot ->
                             if (!documentSnapshot.exists()) {
-                                // Dodaj użytkownika do subkolekcji users aktualnej listy
+                                // Add the user to the users subcollection of the current list
                                 firestore.collection("shoppingLists")
                                     .document(listId)
                                     .collection("users")
@@ -435,14 +424,14 @@ class ProductListActivity : AppCompatActivity() {
                                             .get()
                                             .addOnSuccessListener { result ->
                                                 for (document in result) {
-                                                    val userUid = document.id // Odnajdziono użytkownika, pobierz jego uid
+                                                    val userUid = document.id
 
-                                                    // Dodaj dokument do kolekcji "lists" dla danego użytkownika
+                                                    // Add the document to the "lists" collection for a given user
                                                     val listsCollectionRef = firestore.collection("userData")
                                                         .document(userUid)
                                                         .collection("lists")
 
-                                                    // Utwórz dokument o nazwie listId i polu listId o wartości listId
+                                                    // Create a document with the name listId and a listId field with the value listId
                                                     listsCollectionRef.document(listId)
                                                         .set(mapOf("listId" to listId))
                                                         .addOnSuccessListener {
@@ -458,22 +447,22 @@ class ProductListActivity : AppCompatActivity() {
                                             }
                                         Toast.makeText(
                                             this,
-                                            "Użytkownik dodany do listy zakupowej",
+                                            R.string.user_added_to_the_shopping_list,
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
                                     .addOnFailureListener { e ->
                                         Toast.makeText(
                                             this,
-                                            "Błąd dodawania użytkownika: $e",
+                                            "${R.string.error_while_downloading_the_user}: $e",
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
                             } else {
-                                // Użytkownik już istnieje w subkolekcji users aktualnej listy
+                                // The user already exists in the users subcollection of the current list
                                 Toast.makeText(
                                     this,
-                                    "Użytkownik już istnieje na liście zakupowej",
+                                    R.string.user_already_exists_ont_the_list,
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -481,15 +470,15 @@ class ProductListActivity : AppCompatActivity() {
                         .addOnFailureListener { e ->
                             Toast.makeText(
                                 this,
-                                "Błąd sprawdzania użytkownika: $e",
+                                "${R.string.error_while_checking_the_user_data}: $e",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
                 } else {
-                    // Użytkownik o podanym email nie istnieje w kolekcji userData
+                    // The user with the given email address does not exist in the userData collection
                     Toast.makeText(
                         this,
-                        "Użytkownik o podanym email nie istnieje",
+                        R.string.user_with_this_email_doesnt_exist,
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -497,7 +486,7 @@ class ProductListActivity : AppCompatActivity() {
             .addOnFailureListener { e ->
                 Toast.makeText(
                     this,
-                    "Błąd sprawdzania użytkownika: $e",
+                    "${R.string.error_while_checking_the_user_data}: $e",
                     Toast.LENGTH_SHORT
                 ).show()
             }

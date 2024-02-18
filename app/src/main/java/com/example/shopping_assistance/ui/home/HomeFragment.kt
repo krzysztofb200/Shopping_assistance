@@ -15,12 +15,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.shopping_assistance.R
 import com.example.shopping_assistance.databinding.FragmentHomeBinding
 import com.example.shopping_assistance.ui.AddShoppingListActivity
-import com.example.shopping_assistance.ui.ShoppingListAdapter
-import com.example.shopping_assistance.ui.ShoppingListClass
+import com.example.shopping_assistance.ui.adapters.ShoppingListAdapter
+import com.example.shopping_assistance.ui.models.ShoppingListClass
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Source
 
 class HomeFragment : Fragment() {
 

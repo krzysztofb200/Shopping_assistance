@@ -1,4 +1,4 @@
-package com.example.shopping_assistance.ui
+package com.example.shopping_assistance.ui.adapters
 
 import android.content.Intent
 import android.util.Log
@@ -10,8 +10,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopping_assistance.R
+import com.example.shopping_assistance.ui.ProductListActivity
+import com.example.shopping_assistance.ui.models.ShoppingListClass
 
-class ShoppingListAdapter : ListAdapter<ShoppingListClass, ShoppingListAdapter.ShoppingListViewHolder>(ShoppingListDiffCallback()) {
+class ShoppingListAdapter : ListAdapter<ShoppingListClass, ShoppingListAdapter.ShoppingListViewHolder>(
+    ShoppingListDiffCallback()
+) {
 
 //    override fun submitList(list: List<ShoppingListClass>?) {
 //        super.submitList(list?.sortedWith(compareBy { it.listName.lowercase() }))

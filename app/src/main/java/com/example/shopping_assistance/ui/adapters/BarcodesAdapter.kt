@@ -1,4 +1,4 @@
-package com.example.shopping_assistance.ui
+package com.example.shopping_assistance.ui.adapters
 
 import android.content.Intent
 import android.util.Log
@@ -10,8 +10,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopping_assistance.R
+import com.example.shopping_assistance.ui.models.BarcodeClass
+import com.example.shopping_assistance.ui.ShowBarcodeActivity
 
-class BarcodesAdapter : ListAdapter<BarcodeClass, BarcodesAdapter.BarcodeViewHolder>(BarcodeDiffCallback()) {
+class BarcodesAdapter : ListAdapter<BarcodeClass, BarcodesAdapter.BarcodeViewHolder>(
+    BarcodeDiffCallback()
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BarcodeViewHolder {
         val inflater = LayoutInflater.from(parent.context)

@@ -17,9 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopping_assistance.R
 import com.example.shopping_assistance.databinding.FragmentDashboardBinding
-import com.example.shopping_assistance.ui.BarcodeClass
+import com.example.shopping_assistance.ui.models.BarcodeClass
 import com.example.shopping_assistance.ui.BarcodeScannerActivity
-import com.example.shopping_assistance.ui.BarcodesAdapter
+import com.example.shopping_assistance.ui.adapters.BarcodesAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.UUID

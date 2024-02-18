@@ -1,4 +1,4 @@
-package com.example.shopping_assistance.ui
+package com.example.shopping_assistance.ui.adapters
 
 import android.content.ContentValues.TAG
 import android.util.Log
@@ -11,11 +11,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopping_assistance.R
+import com.example.shopping_assistance.ui.ItemTouchHelperListener
 import com.google.firebase.firestore.FirebaseFirestore
 
 data class Product(val productId: String, val name: String, val purchased: Boolean)
 
-class ProductListAdapter(private val listId: String) : ListAdapter<Product, ProductListAdapter.ProductViewHolder>(ProductDiffCallback()), ItemTouchHelperListener {
+class ProductListAdapter(private val listId: String) : ListAdapter<Product, ProductListAdapter.ProductViewHolder>(
+    ProductDiffCallback()
+), ItemTouchHelperListener {
 
     override fun submitList(list: List<Product>?) {
         super.submitList(list?.sortedWith(compareBy<Product> { it.purchased }.thenBy { it.name }))

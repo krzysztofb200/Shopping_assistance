@@ -14,6 +14,28 @@
     <string name="login_page">Masz już konto? Zaloguj się</string>
     <string name="no_shopping_lists_available">Brak dostępnych list zakupów</string>
     <string name="no_products">Brak produktów. Dodaj jakiś.</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="delete_list">Usuń listę</string>
+    <string name="do_you_want_to_delete_this_list">Czy na pewno chcesz usunąć tę listę?</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="error_while_downloading_from_firestore">Błąd pobierania danych z Firestore</string>
+    <string name="add_product">Dodaj produkt</string>
+    <string name="add_user">Dodaj użytkownika</string>
+    <string name="add">Dodaj</string>
+    <string name="cancel">Anuluj</string>
+    <string name="name_cant_be_longer_than">Nazwa produktu nie może być dłuższa niż 25 znaków</string>
+    <string name="enter_the_product_name">Podaj nazwę produktu</string>
+    <string name="product_added_successfully">Produkt dodany pomyślnie</string>
+    <string name="error_while_adding_the_product">Błąd podczas dodawania produktu</string>
+    <string name="users_on_the_list">Użytkownicy na liście</string>
+    <string name="error_while_downloading_the_list">Błąd pobierania listy użytkowników</string>
+    <string name="cant_delete_your_account">Nie możesz usunąć samego siebie</string>
+    <string name="user_deleted_from_the_list">Użytkownik usunięty z listy</string>
+    <string name="error_while_deleting_the_user">Błąd usuwania użytkownika</string>
+    <string name="error_while_downloading_the_user">Błąd pobierania użytkownika do usunięcia</string>
+    <string name="user_added_to_the_shopping_list">Użytkownik dodany do listy zakupowej</string>
+    <string name="user_already_exists_ont_the_list">Użytkownik już istnieje na liście zakupowej</string>
+    <string name="error_while_checking_the_user_data">Błąd sprawdzania użytkownika</string>
+    <string name="user_with_this_email_doesnt_exist">Użytkownik o podanym email nie istnieje</string>
 </resources>

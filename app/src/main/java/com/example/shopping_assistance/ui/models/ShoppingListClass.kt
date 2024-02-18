@@ -1,4 +1,4 @@
-package com.example.shopping_assistance.ui
+package com.example.shopping_assistance.ui.models
 
 data class ShoppingListClass(
     val listId: String = "",  // ustaw wartość domyślną dla String
