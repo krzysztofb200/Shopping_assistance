@@ -33,13 +33,18 @@
 
 
 ## Screenshots
-<img src="./screenshots/barcode.png" width="100">
-![Shopping lists](./screenshots/shooping_lists.png)
+<img src="./screenshots/shopping_lists.png" width="300">
+<img src="./screenshots/products.png" width="300">
+<img src="./screenshots/barcode_list.png" width="300">
+<img src="./screenshots/barcode.png" width="300">
+<img src="./screenshots/options.png" width="300">
+<img src="./screenshots/theme.png" width="300">
+<!-- ![Shopping lists](./screenshots/shopping_lists.png)
 ![Products](./screenshots/products.png)
 ![Barcode list](./screenshots/barcode_list.png)
 ![Barcode](./screenshots/barcode.png)
 ![Options](./screenshots/options.png)
-![Theme](./screenshots/theme.png)
+![Theme](./screenshots/theme.png) -->
 <!-- If you have screenshots you'd like to share, include them here. -->
 
 
