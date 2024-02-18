@@ -33,6 +33,7 @@
 
 
 ## Screenshots
+<img src="./screenshots/barcode.png" width="100">
 ![Shopping lists](./screenshots/shooping_lists.png)
 ![Products](./screenshots/products.png)
 ![Barcode list](./screenshots/barcode_list.png)
