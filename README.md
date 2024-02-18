@@ -33,7 +33,12 @@
 
 
 ## Screenshots
-![Example screenshot](./img/screenshot.png)
+![Shopping lists](./screenshots/shooping_lists.png)
+![Products](./screenshots/products.png)
+![Barcode list](./screenshots/barcode_list.png)
+![Barcode](./screenshots/barcode.png)
+![Options](./screenshots/options.png)
+![Theme](./screenshots/theme.png)
 <!-- If you have screenshots you'd like to share, include them here. -->
 
 
