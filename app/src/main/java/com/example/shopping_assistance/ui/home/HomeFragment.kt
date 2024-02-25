@@ -47,71 +47,68 @@ class HomeFragment : Fragment() {
 
         progressBar = view.findViewById(R.id.progressBar)
 
-        // Inicjalizacja FirebaseAuth i FirebaseFirestore
+        // firebase init
         firebaseAuth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
         Log.d("UID", firebaseAuth.uid.toString())
 
-        // Inicjalizacja widoków
+        // views init
         fabAddList = view.findViewById(R.id.fabAddList)
         recyclerView = view.findViewById(R.id.recyclerViewLists)
         noListsTextView = view.findViewById(R.id.textViewNoLists)
 
-        // Konfiguracja RecyclerView
+        // recyclerview init
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = ShoppingListAdapter()
         recyclerView.adapter = adapter
 
-        // Ustawienie listenera dla FAB
         fabAddList.setOnClickListener {
             val intent = Intent(requireContext(), AddShoppingListActivity::class.java)
             startActivity(intent)
         }
 
-        // Pobierz i wyświetl listy zakupów użytkownika
         loadShoppingLists()
 
         return view
     }
 
     private fun loadShoppingLists() {
-        // Pokaż ProgressBar podczas ładowania
         progressBar.visibility = View.VISIBLE
 
         val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
 
-        // Sprawdź, czy aktualny użytkownik jest zalogowany
+        // Check if the user is logged in
         if (currentUserUid != null) {
             val firestore = FirebaseFirestore.getInstance()
 
-            // Pobierz listy użytkownika z kolekcji "userData"
+            // Download lists from "userData"
             firestore.collection("userData")
                 .document(currentUserUid)
                 .collection("lists")
                 .get()
                 .addOnSuccessListener { listsSnapshot ->
-                    // Sprawdź, czy są jakiekolwiek listy dla użytkownika
+                    // Check if there are any lists
                     if (listsSnapshot.isEmpty) {
                         Log.d("list empty", "List empty")
-                        // Brak list, ukryj RecyclerView, pokaż TextView
+                        // If no lists
                         recyclerView.visibility = View.GONE
                         noListsTextView.visibility = View.VISIBLE
                         progressBar.visibility = View.GONE
                     } else {
-                        // Są listy, ukryj TextView, pokaż RecyclerView
+                        // There are some lists
                         recyclerView.visibility = View.VISIBLE
                         noListsTextView.visibility = View.GONE
 
                         val shoppingListsIds = mutableListOf<String>()
 
-                        // Pobierz listy z kolekcji "shoppingLists" na podstawie listId
+                        // Retrieve lists from the "shoppingLists" collection based on listId
                         for (listDocument in listsSnapshot.documents) {
                             val listId = listDocument.getString("listId") ?: ""
                             shoppingListsIds.add(listId)
                         }
 
-                        // Pobierz listy zakupowe dla użytkownika z kolekcji "shoppingLists"
+                        // Download shopping lists for a user from the "shoppingLists" collection
                         firestore.collection("shoppingLists")
                             .whereIn("listId", shoppingListsIds)
                             .get()
@@ -119,38 +116,33 @@ class HomeFragment : Fragment() {
                                 val shoppingLists = mutableListOf<ShoppingListClass>()
 
                                 for (shoppingListDocument in shoppingListsSnapshot.documents) {
-                                    // Odczytaj dane listy zakupowej
+                                    // Read the data of a shopping list
                                     val listName = shoppingListDocument.getString("listName") ?: ""
                                     val listId = shoppingListDocument.id
 
-                                    // Dodaj listę do listy zakupowej
+                                    // Add list to shopping list
                                     val shoppingList = ShoppingListClass(listId, listName)
                                     shoppingLists.add(shoppingList)
                                 }
 
-                                // Ukryj ProgressBar po zakończeniu ładowania
                                 progressBar.visibility = View.GONE
 
-                                // Zaktualizuj listę zakupową w adapterze
+                                // Update the list in the adapter
                                 shoppingLists.sortBy { it.listName.lowercase() }
                                 adapter.submitList(shoppingLists)
                             }
                             .addOnFailureListener { exception ->
-                                // Obsługa błędu pobierania list zakupowych
                                 Log.e(TAG, "Błąd pobierania list zakupowych", exception)
-                                // Ukryj ProgressBar po zakończeniu ładowania
                                 progressBar.visibility = View.GONE
                             }
                     }
                 }
                 .addOnFailureListener { exception ->
-                    // Obsługa błędu pobierania list z kolekcji "userData"
                     Log.e(TAG, "Błąd pobierania list z kolekcji userData", exception)
-                    // Ukryj ProgressBar po zakończeniu ładowania
                     progressBar.visibility = View.GONE
                 }
         } else {
-            // Aktualny użytkownik niezalogowany, ukryj RecyclerView, pokaż TextView
+            // The user isn't logged in
             recyclerView.visibility = View.GONE
             noListsTextView.visibility = View.VISIBLE
         }

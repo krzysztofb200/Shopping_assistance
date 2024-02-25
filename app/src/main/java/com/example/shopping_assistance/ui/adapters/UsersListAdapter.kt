@@ -29,14 +29,13 @@ class UsersListAdapter(private val context: Context, private val usersList: List
         textViewUserEmail.text = userEmail
 
         if (userEmail == actualEmail) {
-            // Ukryj ikonę kosza dla aktualnie zalogowanego użytkownika
+            // Hide the trash icon for actual user
             imageViewDeleteUser.visibility = View.GONE
         } else {
             imageViewDeleteUser.visibility = View.VISIBLE
 
-            // Ustaw listener do usuwania użytkownika po kliknięciu na ikonę śmietnika
             imageViewDeleteUser.setOnClickListener {
-                // Usuń użytkownika po kliknięciu
+                // Delete user after clicking
                 if (userEmail != null) {
                     (context as ProductListActivity).removeUserFromList(userEmail, listId)
                 }

@@ -34,37 +34,33 @@ class AccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Tutaj możesz dodać kod do ustawienia e-maila użytkownika
         textViewEmail.text = FirebaseAuth.getInstance().currentUser?.email
 
-        // Następnie możesz skonfigurować RecyclerView z listą opcji
-        val optionsList = listOf("Wyloguj się", "Tryb ciemny")
+        val optionsList = listOf(getString(R.string.log_out), getString(R.string.theme_mode))
         val adapter = OptionsAdapter()
         adapter.submitList(optionsList)
         recyclerViewOptions.layoutManager = LinearLayoutManager(requireContext())
         recyclerViewOptions.adapter = adapter
-        // Obsługa kliknięcia na opcję
         adapter.setOnItemClickListener { position ->
             when (position) {
                 0 -> logoutUser()
                 1 -> changeTheme()
-                // Dodaj inne obsługiwane opcje
             }
         }
     }
 
     private fun logoutUser() {
-        // Wyloguj użytkownika z Firebase
+        // Logging out
         FirebaseAuth.getInstance().signOut()
 
-        // Usuń dane logowania z SharedPreferences
+        // Deleting data from SharedPreferences
         val sharedPreferences: SharedPreferences =
             activity?.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE) ?: return
         val editor = sharedPreferences.edit()
         editor.clear()
         editor.apply()
 
-        // Przenieś użytkownika do LoginActivity
+        // Go to LoginActivity
         val intent = Intent(activity, LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)

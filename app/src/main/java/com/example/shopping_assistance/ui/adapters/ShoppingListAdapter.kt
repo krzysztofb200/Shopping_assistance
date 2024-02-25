@@ -25,19 +25,17 @@ class ShoppingListAdapter : ListAdapter<ShoppingListClass, ShoppingListAdapter.S
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.item_shopping_list, parent, false)
         return ShoppingListViewHolder(view)
-        //TODO: Listy zakupów wyświetlają się w alfabetycznej kolejności ale kliknięcie w którąś z
-        // nich nie koniecznie prowadzi do jej odpowiednika w bazie danych
     }
 
     override fun onBindViewHolder(holder: ShoppingListViewHolder, position: Int) {
         val shoppingList = getItem(position)
         holder.bind(shoppingList)
         holder.itemView.setOnClickListener {
-            // Pobierz klikniętą listę
+            // Download list
             val clickedShoppingList = getItem(position)
             Log.d("listId", clickedShoppingList.listId)
 
-            // Przekieruj do nowej aktywności, przekazując ID lub inne informacje o liście
+            // Go to a new activity
             val intent = Intent(holder.itemView.context, ProductListActivity::class.java)
             intent.putExtra("listId", clickedShoppingList.listId)
             intent.putExtra("listName", clickedShoppingList.listName)
@@ -50,8 +48,6 @@ class ShoppingListAdapter : ListAdapter<ShoppingListClass, ShoppingListAdapter.S
 
         fun bind(shoppingList: ShoppingListClass) {
             listNameTextView.text = shoppingList.listName
-            //TODO: Add onClick feature
-            // Tutaj można dodać dodatkowe operacje, np. obsługę kliknięcia na element
         }
     }
 

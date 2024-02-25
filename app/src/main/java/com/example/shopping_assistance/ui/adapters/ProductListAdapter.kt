@@ -24,32 +24,28 @@ class ProductListAdapter(private val listId: String) : ListAdapter<Product, Prod
         super.submitList(list?.sortedWith(compareBy<Product> { it.purchased }.thenBy { it.name }))
     }
 
-    // Implementacje funkcji adaptera, np. onCreateViewHolder, onBindViewHolder, itd.
-
     override fun onItemSwipeLeft(position: Int) {
-        // Obsługa przesunięcia w lewo, np. usuwanie elementu
-        // Usuń element z listy i odśwież RecyclerView
+        // Delete item from the list and refresh recyclerview
         val deletedProduct = getItem(position)
         Log.d(TAG, "ListId: $listId")
 
-        // Usuń produkt z Firebase Firestore
+        // Delete product from firestore
         deleteProductFromFirestore(deletedProduct, listId)
 
-        // Zaktualizuj listę i poinformuj adapter o zmianach
+        // Update the list
         val updatedList = currentList.toMutableList()
         updatedList.removeAt(position)
         submitList(updatedList)
     }
 
     override fun onItemSwipeRight(position: Int) {
-        // Obsługa przesunięcia w prawo, np. zmiana wartości
-        // Zmodyfikuj wartość elementu i odśwież RecyclerView
+        // Update the item and refresh recyclreview
         val updatedProduct = getItem(position).copy(purchased = !getItem(position).purchased)
 
-        // Aktualizuj wartość purchased w Firebase Firestore
+        // Update the "purchased" value
         updateProductInFirestore(updatedProduct)
 
-        // Zaktualizuj listę i poinformuj adapter o zmianach
+        // Update the list
         val updatedList = currentList.toMutableList()
         updatedList[position] = updatedProduct
         submitList(updatedList)
@@ -89,10 +85,9 @@ class ProductListAdapter(private val listId: String) : ListAdapter<Product, Prod
         val firestore = FirebaseFirestore.getInstance()
         val productId = product.productId
 
-        // Uzyskaj referencję do dokumentu produktu w kolekcji "products"
         val productRef = firestore.collection("shoppingLists").document(listId).collection("products").document(productId)
 
-        // Usuń produkt z kolekcji "products"
+        // Delete product from products collection
         productRef.delete()
             .addOnSuccessListener {
                 Log.d(TAG, "Produkt usunięty z Firebase Firestore")
@@ -106,10 +101,8 @@ class ProductListAdapter(private val listId: String) : ListAdapter<Product, Prod
         val firestore = FirebaseFirestore.getInstance()
         val productId = product.productId
 
-        // Uzyskaj referencję do dokumentu produktu w kolekcji "products"
         val productRef = firestore.collection("shoppingLists").document(listId).collection("products").document(productId)
 
-        // Aktualizuj wartość purchased w dokumencie
         productRef.update("purchased", product.purchased)
             .addOnSuccessListener {
                 Log.d(TAG, "Wartość purchased zaktualizowana w Firebase Firestore")

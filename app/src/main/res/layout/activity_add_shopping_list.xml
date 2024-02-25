@@ -13,14 +13,14 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_marginBottom="16dp"
-        android:hint="Nazwa listy"
+        android:hint="@string/name_of_the_list"
         android:maxLength="25"/>
 
     <Button
         android:id="@+id/buttonAddList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dodaj listę"
+        android:text="@string/add_list"
         android:layout_below="@+id/editTextListName"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"/>

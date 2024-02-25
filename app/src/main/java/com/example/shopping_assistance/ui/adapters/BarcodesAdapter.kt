@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopping_assistance.R
-import com.example.shopping_assistance.ui.models.BarcodeClass
 import com.example.shopping_assistance.ui.ShowBarcodeActivity
+import com.example.shopping_assistance.ui.models.BarcodeClass
 
 class BarcodesAdapter : ListAdapter<BarcodeClass, BarcodesAdapter.BarcodeViewHolder>(
     BarcodeDiffCallback()
@@ -27,11 +27,10 @@ class BarcodesAdapter : ListAdapter<BarcodeClass, BarcodesAdapter.BarcodeViewHol
         val barcode = getItem(position)
         holder.bind(barcode)
         holder.itemView.setOnClickListener {
-            // Pobierz klikniętą listę
+            // Download clicked list
             val clickedBarcode = getItem(position)
             Log.d("listId", clickedBarcode.id)
 
-            // Przekieruj do nowej aktywności, przekazując ID lub inne informacje o liście
             val intent = Intent(holder.itemView.context, ShowBarcodeActivity::class.java)
             intent.putExtra("barcodeId", clickedBarcode.id)
             intent.putExtra("barcodeName", clickedBarcode.name)

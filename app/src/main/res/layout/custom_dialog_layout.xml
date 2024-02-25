@@ -18,7 +18,7 @@
         android:id="@+id/closeButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Zamknij"
+        android:text="@string/close"
         android:layout_below="@id/usersListView"
         android:layout_marginTop="16dp"/>
 </RelativeLayout>

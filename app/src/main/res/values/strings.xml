@@ -25,6 +25,7 @@
     <string name="add">Dodaj</string>
     <string name="cancel">Anuluj</string>
     <string name="name_cant_be_longer_than">Nazwa produktu nie może być dłuższa niż 25 znaków</string>
+    <string name="code_cant_be_longer_than">Nazwa kodu nie może być dłuższa niż 20 znaków</string>
     <string name="enter_the_product_name">Podaj nazwę produktu</string>
     <string name="product_added_successfully">Produkt dodany pomyślnie</string>
     <string name="error_while_adding_the_product">Błąd podczas dodawania produktu</string>
@@ -38,4 +39,18 @@
     <string name="user_already_exists_ont_the_list">Użytkownik już istnieje na liście zakupowej</string>
     <string name="error_while_checking_the_user_data">Błąd sprawdzania użytkownika</string>
     <string name="user_with_this_email_doesnt_exist">Użytkownik o podanym email nie istnieje</string>
+    <string name="close">Zamknij</string>
+    <string name="name_of_the_list">Nazwa listy</string>
+    <string name="add_list">Dodaj listę</string>
+    <string name="next">Dalej</string>
+    <string name="dark_theme">Motyw ciemny  </string>
+    <string name="theme_mode">Tryb ciemny</string>
+    <string name="name">Nazwa</string>
+    <string name="value">Wartość</string>
+    <string name="logged_as">Zalogowano jako:</string>
+    <string name="no_barcodes">Brak kodów kreskowych</string>
+    <string name="log_out">Wyloguj się</string>
+    <string name="add_barcode">Dodaj kod kreskowy</string>
+    <string name="give_code_name">Wprowadź nazwę kodu</string>
+    <string name="provide_correct_details">Podaj poprawne dane</string>
 </resources>

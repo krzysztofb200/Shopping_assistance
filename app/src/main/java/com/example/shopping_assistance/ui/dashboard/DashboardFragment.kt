@@ -17,9 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopping_assistance.R
 import com.example.shopping_assistance.databinding.FragmentDashboardBinding
-import com.example.shopping_assistance.ui.models.BarcodeClass
 import com.example.shopping_assistance.ui.BarcodeScannerActivity
 import com.example.shopping_assistance.ui.adapters.BarcodesAdapter
+import com.example.shopping_assistance.ui.models.BarcodeClass
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.UUID
@@ -32,7 +32,7 @@ class DashboardFragment : Fragment() {
     private lateinit var recyclerViewBarcodes: RecyclerView
     private lateinit var textViewNoBarcodes: TextView
 
-    private lateinit var currentUserUid: String // Pobierz aktualne UID użytkownika
+    private lateinit var currentUserUid: String
 
     private val firestore = FirebaseFirestore.getInstance()
 
@@ -55,7 +55,6 @@ class DashboardFragment : Fragment() {
         recyclerViewBarcodes.adapter = barcodesAdapter
 
         binding.fabAddBarcode.setOnClickListener {
-            // Tu możesz dodać kod do obsługi kliknięcia FAB, np. otwieranie AlertDialog
             showAddBarcodeDialog()
         }
 
@@ -63,21 +62,21 @@ class DashboardFragment : Fragment() {
             val builder = AlertDialog.Builder(requireContext())
             val input = EditText(requireContext())
 
-            builder.setTitle("Dodaj kod kreskowy")
-                .setMessage("Wprowadź nazwę kodu")
+            builder.setTitle(R.string.add_barcode)
+                .setMessage(R.string.give_code_name)
                 .setView(input)
-                .setPositiveButton("Dalej") { _, _ ->
+                .setPositiveButton(R.string.next) { _, _ ->
                     val barcodeName = input.text.toString()
 
                     if (barcodeName.length > 20) {
-                        Toast.makeText(requireContext(), "Nazwa kodu nie może być dłuższa niż 20 znaków", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), R.string.code_cant_be_longer_than, Toast.LENGTH_SHORT).show()
                     } else {
                         val intent = Intent(requireContext(), BarcodeScannerActivity::class.java)
                         intent.putExtra("codeName", barcodeName)
                         startActivity(intent)
                     }
                 }
-                .setNegativeButton("Anuluj") { dialog, _ ->
+                .setNegativeButton(R.string.cancel) { dialog, _ ->
                     dialog.dismiss()
                 }
 
@@ -103,27 +102,25 @@ class DashboardFragment : Fragment() {
                     barcodes.add(barcode)
                 }
 
-                // Dodaj logi debugujące
                 Log.d(TAG, "Loaded ${barcodes.size} barcodes")
 
-                // Aktualizuj listę w adapterze
+                // Update the list in the adapter
                 barcodes.sortBy { it.name.lowercase() }
                 barcodesAdapter.submitList(barcodes)
 
-                // Dodaj log, aby sprawdzić, czy kolekcja products nie jest pusta
+                // Log to see if the collection isn't empty
                 if (barcodes.isEmpty()) {
                     Log.d(TAG, "Barcodes collection is empty.")
                 }
             }
             .addOnFailureListener { exception ->
-                // Błąd podczas pobierania kodów kreskowych
                 Log.e(TAG, "Error loading barcodes", exception)
             }
     }
 
     private fun showAddBarcodeDialog() {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Dodaj kod kreskowy")
+        builder.setTitle(R.string.add_barcode)
 
         val view = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_barcode, null)
         val editTextName = view.findViewById<EditText>(R.id.editTextName)
@@ -131,7 +128,7 @@ class DashboardFragment : Fragment() {
 
         builder.setView(view)
 
-        builder.setPositiveButton("Dodaj") { _, _ ->
+        builder.setPositiveButton(R.string.add) { _, _ ->
             val codeId = UUID.randomUUID().toString()
             val name = editTextName.text.toString().trim()
             val value = editTextValue.text.toString().trim()
@@ -139,12 +136,11 @@ class DashboardFragment : Fragment() {
             if (name.isNotEmpty() && value.isNotEmpty()) {
                 addBarcodeToDatabase(codeId, name, value)
             } else {
-                // Obsługa błędów, np. pusty name lub value
-                Toast.makeText(requireContext(), "Podaj poprawne dane", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), R.string.provide_correct_details, Toast.LENGTH_SHORT).show()
             }
         }
 
-        builder.setNegativeButton("Anuluj") { dialog, _ ->
+        builder.setNegativeButton(R.string.cancel) { dialog, _ ->
             dialog.dismiss()
         }
 
@@ -152,7 +148,7 @@ class DashboardFragment : Fragment() {
     }
 
     private fun addBarcodeToDatabase(codeId: String, name: String, value: String) {
-        // Dodaj kod kreskowy do bazy danych
+        // Add barcode to the database
         val barcode = hashMapOf(
             "id" to codeId,
             "name" to name,
@@ -162,14 +158,12 @@ class DashboardFragment : Fragment() {
         firestore.collection("userData")
             .document(currentUserUid)
             .collection("codes")
-            .document(codeId) // Ustaw codeId jako identyfikator dokumentu
+            .document(codeId)
             .set(barcode)
             .addOnSuccessListener {
-                // Pomyślnie dodano kod kreskowy
                 loadBarcodes()
             }
             .addOnFailureListener { exception ->
-                // Błąd podczas dodawania kodu kreskowego
                 Log.e(TAG, "Error adding barcode", exception)
             }
     }
